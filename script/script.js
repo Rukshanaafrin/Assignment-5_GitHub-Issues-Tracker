@@ -15,19 +15,14 @@ alert("Invalid Username or Password");
 
 
 
-// ==========================
-// API
-// ==========================
 
+// API
 const allIssuesAPI = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 
 const issuesContainer = document.getElementById("issuesContainer");
 
 
-// ==========================
 // LOAD ALL ISSUES
-// ==========================
-
 async function loadAllIssues(){
 
 const res = await fetch(allIssuesAPI);
@@ -42,11 +37,7 @@ setActiveTab("all");
 }
 
 
-
-// ==========================
 // OPEN ISSUES
-// ==========================
-
 async function loadOpenIssues(){
 
 const res = await fetch(allIssuesAPI);
@@ -63,11 +54,7 @@ setActiveTab("open");
 }
 
 
-
-// ==========================
 // CLOSED ISSUES
-// ==========================
-
 async function loadClosedIssues(){
 
 const res = await fetch(allIssuesAPI);
@@ -84,11 +71,7 @@ setActiveTab("closed");
 }
 
 
-
-// ==========================
 // SEARCH
-// ==========================
-
 async function searchIssues(){
 
 const text = document.getElementById("searchInput").value;
@@ -104,11 +87,7 @@ document.getElementById("issueCount").innerText = data.data.length;
 }
 
 
-
-// ==========================
 // DISPLAY ISSUES
-// ==========================
-
 function displayIssues(issues){
 
 issuesContainer.innerHTML = "";
@@ -211,11 +190,7 @@ issuesContainer.appendChild(card);
 }
 
 
-
-// ==========================
 // MODAL
-// ==========================
-
 function openModal(issue){
 
 document.getElementById("modalTitle").innerText = issue.title;
@@ -263,11 +238,7 @@ closedTab.classList.add("bg-gradient-to-r","from-blue-500","to-blue-400","text-w
 }
 
 
-
-// ==========================
 // BUTTON CLICK
-// ==========================
-
 if(document.getElementById("allTab")){
 
 document.getElementById("allTab").onclick = loadAllIssues;
