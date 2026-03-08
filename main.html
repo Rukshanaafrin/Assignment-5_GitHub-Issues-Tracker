@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Issues Tracker</title>
+    <!-- <link rel="shortcut icon" href="assets/fav-icon.png" type="image/x-icon"> -->
+
+    <!-- tailwind + daisy -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- fonts family -->
+    <style>
+        * {
+            font-family: "Outfit", sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- Navbar -->
+
+    <div class="navbar bg-white shadow px-6">
+
+        <div class="flex-1 flex items-center gap-2">
+
+            <img src="assets/github-logo.png" class="w-8">
+
+            <h1 class="font-semibold text-lg">
+                GitHub Issues Tracker
+            </h1>
+
+        </div>
+
+
+        <div class="flex gap-3">
+
+            <input id="searchInput" type="text" placeholder="Search issues..." class="input input-bordered input-sm" />
+
+            <button onclick="searchIssues()" class="btn btn-primary btn-sm">
+                <i class="fa-solid fa-plus"></i>New Issue
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Tabs -->
+    <div class="flex gap-3 overflow-x-auto pb-1 max-w-6xl mx-auto mt-8 bg-white p-4 rounded-lg shadow">
+
+        <button id="allTab"
+            class="px-6 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-400 text-white text-sm font-medium">
+            All
+        </button>
+
+        <button id="openTab"
+            class="px-6 py-2 rounded-xl bg-base-100 border-base-300 text-gray-600 text-sm font-medium hover:bg-gray-200">
+            Open
+        </button>
+
+        <button id="closedTab"
+            class="px-6 py-2 rounded-xl bg-base-100 border-base-300 text-gray-600 text-sm font-medium hover:bg-gray-200">
+            Closed
+        </button>
+
+    </div>
+
+
+
+
+    <!-- Issues Info -->
+
+    <div class="max-w-6xl mx-auto mt-6 bg-white p-4 rounded-lg shadow flex justify-between items-center">
+
+        <div class="flex items-center gap-2">
+
+            <img src="assets/Aperture.png" alt="">
+
+            <div>
+
+                <h2 class="font-semibold">
+                    <span id="issueCount">50</span> Issues
+                </h2>
+
+                <p class="text-sm text-gray-500">
+                    Track and manage your project issues
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="flex gap-4 text-sm">
+
+            <p class="flex items-center gap-1">
+
+                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+
+                Open
+
+            </p>
+
+            <p class="flex items-center gap-1">
+
+                <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
+
+                Closed
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Issues Grid -->
+
+    <div class="max-w-6xl mx-auto mt-6">
+
+        <div id="issuesContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+        </div>
+
+    </div>
+
+
+    <!-- Modal -->
+
+    <dialog id="issueModal" class="modal">
+
+        <div class="modal-box">
+
+            <h3 id="modalTitle" class="font-bold text-lg"></h3>
+
+            <p id="modalDescription" class="py-2"></p>
+
+            <p id="modalAuthor"></p>
+
+            <p id="modalPriority"></p>
+
+            <p id="modalLabel"></p>
+
+            <p id="modalDate"></p>
+
+            <div class="modal-action">
+
+                <form method="dialog">
+
+                    <button class="btn">
+                        Close
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </dialog>
+
+
+
+
+    <script src="script/script.js"></script>
+
+</body>
+
+</html>
