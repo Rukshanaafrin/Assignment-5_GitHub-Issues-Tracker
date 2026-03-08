@@ -1,15 +1,15 @@
 // Login Function
-function login(){
+function login() {
 
-const username = document.getElementById("username").value;
-const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-if(username === "admin" && password === "admin123"){
-window.location.href = "main.html";
-}
-else{
-alert("Invalid Username or Password");
-}
+    if (username === "admin" && password === "admin123") {
+        window.location.href = "main.html";
+    }
+    else {
+        alert("Invalid Username or Password");
+    }
 
 }
 
@@ -23,114 +23,130 @@ const issuesContainer = document.getElementById("issuesContainer");
 
 
 // LOAD ALL ISSUES
-async function loadAllIssues(){
+async function loadAllIssues() {
 
-const res = await fetch(allIssuesAPI);
-const data = await res.json();
+    const res = await fetch(allIssuesAPI);
+    const data = await res.json();
 
-displayIssues(data.data);
+    displayIssues(data.data);
 
-document.getElementById("issueCount").innerText = data.data.length;
+    document.getElementById("issueCount").innerText = data.data.length;
 
-setActiveTab("all");
+    setActiveTab("all");
 
 }
 
 
 // OPEN ISSUES
-async function loadOpenIssues(){
+async function loadOpenIssues() {
 
-const res = await fetch(allIssuesAPI);
-const data = await res.json();
+    const res = await fetch(allIssuesAPI);
+    const data = await res.json();
 
-const openIssues = data.data.filter(issue => issue.status === "open");
+    const openIssues = data.data.filter(issue => issue.status === "open");
 
-displayIssues(openIssues);
+    displayIssues(openIssues);
 
-document.getElementById("issueCount").innerText = openIssues.length;
+    document.getElementById("issueCount").innerText = openIssues.length;
 
-setActiveTab("open");
+    setActiveTab("open");
 
 }
 
 
 // CLOSED ISSUES
-async function loadClosedIssues(){
+async function loadClosedIssues() {
 
-const res = await fetch(allIssuesAPI);
-const data = await res.json();
+    const res = await fetch(allIssuesAPI);
+    const data = await res.json();
 
-const closedIssues = data.data.filter(issue => issue.status === "closed");
+    const closedIssues = data.data.filter(issue => issue.status === "closed");
 
-displayIssues(closedIssues);
+    displayIssues(closedIssues);
 
-document.getElementById("issueCount").innerText = closedIssues.length;
+    document.getElementById("issueCount").innerText = closedIssues.length;
 
-setActiveTab("closed");
+    setActiveTab("closed");
 
 }
 
 
 // SEARCH
-async function searchIssues(){
+async function searchIssues() {
 
-const text = document.getElementById("searchInput").value;
+    const text = document.getElementById("searchInput").value;
 
-const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${text}`);
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${text}`);
 
-const data = await res.json();
+    const data = await res.json();
 
-displayIssues(data.data);
+    displayIssues(data.data);
 
-document.getElementById("issueCount").innerText = data.data.length;
+    document.getElementById("issueCount").innerText = data.data.length;
 
 }
 
 
 // DISPLAY ISSUES
-function displayIssues(issues){
+function displayIssues(issues) {
 
-issuesContainer.innerHTML = "";
+    issuesContainer.innerHTML = "";
 
-issues.forEach(issue => {
+    issues.forEach(issue => {
 
-let priorityColor = "";
-let priorityBg = "";
-let icon = "";
+        let labelsHTML = "";
 
-const priority = issue.priority.toUpperCase();
+        if (issue.labels && issue.labels.length > 0) {
 
-if(priority === "HIGH"){
-priorityColor = "text-red-500";
-priorityBg = "bg-red-100";
-icon = "assets/Open-Status.png";
-}
+            issue.labels.forEach(label => {
 
-else if(priority === "MEDIUM"){
-priorityColor = "text-orange-500";
-priorityBg = "bg-orange-100";
-icon = "assets/Open-Status.png";
-}
+                labelsHTML += `
+<span class="px-2 py-1 rounded border text-orange-500 bg-orange-100 text-xs">
+${label.toUpperCase()}
+</span>
+`;
 
-else{
-priorityColor = "text-blue-500";
-priorityBg = "bg-blue-100";
-icon = "assets/Closed- Status .png";
-}
+            });
+
+        }
+
+        let priorityColor = "";
+        let priorityBg = "";
+        let icon = "";
+
+        const priority = issue.priority.toUpperCase();
+
+        if (priority === "HIGH") {
+            priorityColor = "text-red-500";
+            priorityBg = "bg-red-100";
+            icon = "assets/Open-Status.png";
+        }
+
+        else if (priority === "MEDIUM") {
+            priorityColor = "text-orange-500";
+            priorityBg = "bg-orange-100";
+            icon = "assets/Open-Status.png";
+        }
+
+        else {
+            priorityColor = "text-blue-500";
+            priorityBg = "bg-blue-100";
+            icon = "assets/Closed- Status .png";
+        }
 
 
-// OPEN CLOSED BORDER
-const borderColor = issue.status === "open"
-? "border-green-500"
-: "border-purple-500";
+        // OPEN CLOSED BORDER
+        const borderColor = issue.status === "open"
+            ? "border-green-500"
+            : "border-purple-500";
 
 
-// CARD
-const card = document.createElement("div");
+        // CARD
+        const card = document.createElement("div");
 
-card.className = `bg-white rounded-xl shadow p-5 border-t-4 ${borderColor} cursor-pointer`;
+        card.className = `bg-white rounded-xl shadow p-5 border-t-4 ${borderColor} cursor-pointer`;
 
-card.innerHTML = `
+        card.innerHTML = `
 
 <div class="flex justify-between items-center mb-3">
 
@@ -153,100 +169,138 @@ ${issue.description}
 </p>
 
 
-<div class="flex gap-3 text-xs mb-3">
-
-<span class="px-2 py-1 rounded border text-red-500 bg-red-100">
-<i class="fa-solid fa-bug"></i> BUG
-</span>
-
-<span class="px-2 py-1 rounded border text-orange-500 bg-orange-100">
-<i class="fa-solid fa-life-ring"></i> HELP WANTED
-</span>
-
+<div class="flex gap-2 flex-wrap mb-3">
+${labelsHTML}
 </div>
 
 
 <hr class="my-3">
 
+<div class="text-xs text-gray-400 mt-3">
 
-<p class="text-xs text-gray-400">
-#${issue.id} by ${issue.author}
-</p>
+<div class="flex justify-between">
+<span>#${issue.id} by ${issue.author}</span>
+<span>${new Date(issue.createdAt).toLocaleDateString()}</span>
+</div>
 
-<p class="text-xs text-gray-400">
-${new Date(issue.createdAt).toLocaleDateString()}
-</p>
+<div class="flex justify-between mt-1">
+<span>Assignee: ${issue.assignee ? issue.assignee : "Unassigned"}</span>
+<span>Updated: ${new Date(issue.updatedAt).toLocaleDateString()}</span>
+</div>
+
+</div>
 
 `;
 
 
-// MODAL CLICK
-card.onclick = () => openModal(issue);
+        // MODAL CLICK
+        card.onclick = () => openModal(issue.id);
 
-issuesContainer.appendChild(card);
+        issuesContainer.appendChild(card);
 
-});
+    });
 
 }
 
 
 // MODAL
-function openModal(issue){
+async function openModal(issueId) {
 
-document.getElementById("modalTitle").innerText = issue.title;
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`);
 
-document.getElementById("modalDescription").innerText = issue.description;
+    const data = await res.json();
 
-document.getElementById("modalAuthor").innerText = "Author: " + issue.author;
+    const issue = data.data;
 
-document.getElementById("modalPriority").innerText = "Priority: " + issue.priority;
+    document.getElementById("modalTitle").innerText = issue.title;
 
-document.getElementById("modalLabel").innerText = "Label: " + issue.label;
+    document.getElementById("modalDescription").innerText = issue.description;
 
-document.getElementById("modalDate").innerText = new Date(issue.createdAt).toLocaleDateString();
+    document.getElementById("modalAuthor").innerText =
+        `Opened by ${issue.author} • ${new Date(issue.createdAt).toLocaleDateString()}`;
 
-document.getElementById("issueModal").showModal();
+ document.getElementById("modalAuthor").innerHTML =
+`<span class="bg-green-100 text-green-600 px-2 py-1 rounded text-xs font-medium">Opened</span>
+<span class="mx-2 text-gray-400">•</span>
+Opened by ${issue.author}
+<span class="mx-2 text-gray-400">•</span>
+${new Date(issue.createdAt).toLocaleDateString()}`;
 
+
+// priority badge
+let priorityColor = "";
+
+if(issue.priority === "high"){
+priorityColor = "bg-red-100 text-red-500";
+}
+else if(issue.priority === "medium"){
+priorityColor = "bg-orange-100 text-orange-500";
+}
+else{
+priorityColor = "bg-blue-100 text-blue-500";
 }
 
+document.getElementById("modalPriority").innerHTML =
+`<span class="px-3 py-1 rounded-full text-xs font-semibold ${priorityColor}">
+${issue.priority.toUpperCase()}
+</span>`;
 
+
+// labels
+let labelHTML = "";
+
+issue.labels.forEach(label => {
+labelHTML += `<span class="px-2 py-1 bg-yellow-100
+ text-yellow-700 text-xs rounded-full mr-2 font-medium uppercase ">${label}</span>`;
+});
+
+document.getElementById("modalLabel").innerHTML = labelHTML;
+
+   
+
+    document.getElementById("modalDate").innerText =
+        `Updated: ${new Date(issue.updatedAt).toLocaleDateString()}`;
+
+    document.getElementById("issueModal").showModal();
+
+}
 
 
 // TAB ACTIVE STYLE
-function setActiveTab(tab){
+function setActiveTab(tab) {
 
-const allTab = document.getElementById("allTab");
-const openTab = document.getElementById("openTab");
-const closedTab = document.getElementById("closedTab");
+    const allTab = document.getElementById("allTab");
+    const openTab = document.getElementById("openTab");
+    const closedTab = document.getElementById("closedTab");
 
-allTab.classList.remove("bg-gradient-to-r","from-blue-500","to-blue-400","text-white");
-openTab.classList.remove("bg-gradient-to-r","from-blue-500","to-blue-400","text-white");
-closedTab.classList.remove("bg-gradient-to-r","from-blue-500","to-blue-400","text-white");
+    allTab.classList.remove("bg-gradient-to-r", "from-blue-500", "to-blue-400", "text-white");
+    openTab.classList.remove("bg-gradient-to-r", "from-blue-500", "to-blue-400", "text-white");
+    closedTab.classList.remove("bg-gradient-to-r", "from-blue-500", "to-blue-400", "text-white");
 
-if(tab === "all"){
-allTab.classList.add("bg-gradient-to-r","from-blue-500","to-blue-400","text-white");
-}
+    if (tab === "all") {
+        allTab.classList.add("bg-gradient-to-r", "from-blue-500", "to-blue-400", "text-white");
+    }
 
-if(tab === "open"){
-openTab.classList.add("bg-gradient-to-r","from-blue-500","to-blue-400","text-white");
-}
+    if (tab === "open") {
+        openTab.classList.add("bg-gradient-to-r", "from-blue-500", "to-blue-400", "text-white");
+    }
 
-if(tab === "closed"){
-closedTab.classList.add("bg-gradient-to-r","from-blue-500","to-blue-400","text-white");
-}
+    if (tab === "closed") {
+        closedTab.classList.add("bg-gradient-to-r", "from-blue-500", "to-blue-400", "text-white");
+    }
 
 }
 
 
 // BUTTON CLICK
-if(document.getElementById("allTab")){
+if (document.getElementById("allTab")) {
 
-document.getElementById("allTab").onclick = loadAllIssues;
+    document.getElementById("allTab").onclick = loadAllIssues;
 
-document.getElementById("openTab").onclick = loadOpenIssues;
+    document.getElementById("openTab").onclick = loadOpenIssues;
 
-document.getElementById("closedTab").onclick = loadClosedIssues;
+    document.getElementById("closedTab").onclick = loadClosedIssues;
 
-window.onload = loadAllIssues;
+    window.onload = loadAllIssues;
 
 }
