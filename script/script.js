@@ -155,11 +155,11 @@ ${issue.description}
 
 <div class="flex gap-3 text-xs mb-3">
 
-<span class="px-2 py-1 rounded border text-red-500">
+<span class="px-2 py-1 rounded border text-red-500 bg-red-100">
 <i class="fa-solid fa-bug"></i> BUG
 </span>
 
-<span class="px-2 py-1 rounded border text-orange-500">
+<span class="px-2 py-1 rounded border text-orange-500 bg-orange-100">
 <i class="fa-solid fa-life-ring"></i> HELP WANTED
 </span>
 
