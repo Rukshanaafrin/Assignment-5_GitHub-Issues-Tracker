@@ -1,4 +1,4 @@
-// LOGIN FUNCTION
+// Login Function
 function login(){
 
 const username = document.getElementById("username").value;
